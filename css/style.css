@@ -1,3 +1,10 @@
+/* NAV CSS */
+
+nav {
+	width: 60%;
+	margin: 30px auto;
+}
+
 nav ul {
 	display: flex;
 	justify-content: space-around;
@@ -7,8 +14,21 @@ nav ul {
 li {
 	list-style: none;
 }
+li a {
+	text-decoration: none;
+	color: black;
+}
+li:hover {
+	background-color: black;
+	padding: 0 10px;
+	border-radius: 20px;
+	transition: all 0.3s ease-in;
+}
+li:hover a {
+	color: white;
+}
 
-form {
+#taskForm {
 	max-width: 30em;
 	margin: 0 auto;
 	display: flex;
@@ -17,4 +37,109 @@ form {
 }
 h1 {
 	text-align: center;
+}
+
+#taskForm input,
+button {
+	padding: 0.5em;
+	border-radius: 20px;
+	border: 1px solid darkgray;
+	cursor: pointer;
+}
+
+button {
+	background-color: darkblue;
+	color: white;
+}
+
+#taskForm textarea {
+	border-radius: 20px;
+	border: 1px solid darkgray;
+}
+
+/* GET ALL TASK CSS */
+.search-form form {
+	display: flex;
+	justify-content: center;
+}
+.search-wrapper {
+	display: flex;
+	border: 1px solid darkgray;
+	padding: 0 1em;
+	border-radius: 20px;
+}
+.search-wrapper input:focus {
+	outline: none;
+}
+.search-form img {
+	width: 1.5em;
+}
+.search-form input {
+	padding: 1em;
+	border-radius: 20px;
+	border: none;
+	font-size: 15px;
+}
+.search-form button {
+	border: none;
+	background-color: white;
+	cursor: pointer;
+}
+.container {
+	width: 70%;
+	margin: auto;
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: center;
+	color: white;
+}
+.task-container {
+	min-width: 20em;
+	max-width: 40em;
+	margin: 8px;
+}
+
+.task-options,
+.task-title,
+.task-desc {
+	padding: 20px;
+}
+.task-title {
+	background-color: beige;
+}
+.task-options {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	background-color: beige;
+}
+.task-title {
+	color: black;
+}
+.task-desc {
+	background-color: teal;
+}
+.edit {
+	flex-grow: 0;
+}
+.edit img,
+.delete img {
+	width: 1.5em;
+}
+.assigned-to {
+	color: black;
+	text-align: right;
+	flex-grow: 0.7;
+}
+.task-container:nth-child(odd) .task-title {
+	border-top-left-radius: 20px;
+}
+.task-container:nth-child(odd) .task-options {
+	border-bottom-left-radius: 20px;
+}
+.task-container:nth-child(even) .task-title {
+	border-top-right-radius: 20px;
+}
+.task-container:nth-child(even) .task-options {
+	border-bottom-right-radius: 20px;
 }
