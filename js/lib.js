@@ -4,9 +4,9 @@ class TaskManager {
     }
 
     static getNextTaskId() {
-	    const nextId = parseInt(localStorage.getItem('nextId')) || 1
-	    localStorage.setItem('nextId', nextId + 1)
-	    return nextId
+        const nextId = parseInt(localStorage.getItem('nextId')) || 1
+        localStorage.setItem('nextId', nextId + 1)
+        return nextId
     }
 
     static addTask(newTask) {
@@ -14,14 +14,14 @@ class TaskManager {
         const tasks = this.getTasks()
 
         // Push the new task object into the dataArray
-	    tasks.push(newTask)
+        tasks.push(newTask)
 
-	    // Update the 'FormData' in localStorage with the updated dataArray
-	    localStorage.setItem('tasks', JSON.stringify(tasks))
+        // Update the 'FormData' in localStorage with the updated dataArray
+        localStorage.setItem('tasks', JSON.stringify(tasks))
     }
 
     static getTasks() {
-	    return JSON.parse(localStorage.getItem('tasks')) || []
+        return JSON.parse(localStorage.getItem('tasks')) || []
     }
 
     static searchTasks(keyword) {
@@ -31,7 +31,7 @@ class TaskManager {
         }
 
         return tasks.filter((task) => {
-            return task.taskName.includes(keyword) 
+            return task.taskName.includes(keyword)
                 || task.taskDesc.includes(keyword)
                 || task.assignedTo.includes(keyword);
         })

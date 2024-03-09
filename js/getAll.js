@@ -14,36 +14,36 @@ function displayTasks(tasks = TaskManager.getTasks()) {
 	}
 
 	tasks.forEach((task, index) => {
-		tasksContainer.innerHTML += 
-		`<div class="task-container random-color">
-			<div class="task-details">
-				<div class="task-title">
-					<h3>${task.taskName}</h3>
+		tasksContainer.innerHTML +=
+			`<div class="task-container random-color">
+				<div class="task-details">
+					<div class="task-title">
+						<h3>${task.taskName}</h3>
+					</div>
+					<div class="task-desc">
+						<p>${task.taskDesc}</p>
+					</div>
 				</div>
-				<div class="task-desc">
-					<p>${task.taskDesc}</p>
+				<div class="task-options">
+					<div class="edit">
+						<a href="" onclick="editTask(event, ${task.taskId});">
+							<img
+								src="./images/pen-to-square-solid.svg"
+								alt="Edit Icon"/>
+						</a>
+					</div>
+					<div class="delete" onclick="deleteTask(event, ${task.taskId});">
+						<a href=""
+							><img
+								src="./images/trash-solid.svg"
+								alt="Delete Icon"
+							/>
+						</a>
+					</div>
+					<div class="assigned-to">
+						Assigned To: <strong>${task.assignedTo}</strong>
+					</div>
 				</div>
-			</div>
-			<div class="task-options">
-				<div class="edit">
-					<a href="" onclick="editTask(event, ${task.taskId});">
-						<img
-							src="./images/pen-to-square-solid.svg"
-							alt="Edit Icon"/>
-					</a>
-				</div>
-				<div class="delete" onclick="deleteTask(event, ${task.taskId});">
-					<a href=""
-						><img
-							src="./images/trash-solid.svg"
-							alt="Delete Icon"
-						/>
-					</a>
-				</div>
-				<div class="assigned-to">
-					Assigned To: <strong>${task.assignedTo}</strong>
-				</div>
-			</div>
 		</div>
 		`
 	})
