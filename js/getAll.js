@@ -51,12 +51,10 @@ function displayTasks(tasks = TaskManager.getTasks()) {
 
 function deleteTask(event, taskId) {
 	event.preventDefault()
-	console.log("deleting task:" + taskId)
 }
 
 function editTask(event, taskId) {
 	event.preventDefault()
-	console.log("editing task:" + taskId)
 }
 
 function searchTasks(event) {

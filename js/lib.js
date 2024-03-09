@@ -36,6 +36,14 @@ class TaskManager {
                 || task.assignedTo.includes(keyword);
         })
     }
+
+    static editTask() {
+
+    }
+
+    static deleteTask() {
+
+    }
 }
 
 const $ = (selector) => document.querySelector(selector)
