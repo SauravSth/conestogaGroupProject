@@ -1,9 +1,7 @@
-const $ = (selector) => document.querySelector(selector)
 
 function checkData(e) {
 	e.preventDefault()
 
-	let dataArray = JSON.parse(localStorage.getItem('FormData')) || []
 	let radios = document.getElementsByName('priority')
 	let priority = ''
 
@@ -27,28 +25,8 @@ function checkData(e) {
 		priority: priority,
 	}
 
-	// Push the new task object into the dataArray
-	dataArray.push(newTask)
-
-	// Update the 'FormData' in localStorage with the updated dataArray
-	localStorage.setItem('FormData', JSON.stringify(dataArray))
-
-	displayTasks()
-}
-
-function displayTasks() {
-	const tasks = JSON.parse(localStorage.getItem('FormData')) || []
-
-	console.log('Tasks stored in localStorage:')
-	tasks.forEach((task, index) => {
-		console.log(`Task ${index + 1}:`)
-		console.log('Task Name: ' + task.taskName)
-		console.log('Task Description: ' + task.taskDesc)
-		console.log('Assigned To: ' + task.assignedTo)
-		console.log('Deadline: ' + task.deadline)
-		console.log('Priority: ' + task.priority)
-		console.log('----------------------')
-	})
+	TaskManager.addTask(newTask)
+	window.location.href = "/getAll.html"
 }
 
 document.addEventListener('DOMContentLoaded', () => {

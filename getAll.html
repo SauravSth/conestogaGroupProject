@@ -20,10 +20,10 @@
 								<input
 									type="text"
 									name="search"
-									id="search"
+									id="searchKeyword"
 									placeholder="Search..."
 								/>
-								<button type="submit">
+								<button id="search" type="submit">
 									<img
 										src="./images/magnifying-glass-solid.svg"
 										alt="Search Icon"
@@ -36,7 +36,7 @@
 			</ul>
 		</nav>
 		<main>
-			<div class="container">
+			<div id="tasks-container" class="container">
 				<div class="task-container random-color">
 					<div class="task-details">
 						<div class="task-title">
@@ -208,5 +208,7 @@
 				</div>
 			</div>
 		</main>
+		<script src="./js/lib.js"></script>
+		<script src="./js/getAll.js"></script>
 	</body>
 </html>
