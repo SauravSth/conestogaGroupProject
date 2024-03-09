@@ -54,6 +54,7 @@ button {
 
 #taskForm textarea {
 	border-radius: 20px;
+	padding: 10px;
 	border: 1px solid darkgray;
 }
 
@@ -94,8 +95,8 @@ button {
 	color: white;
 }
 .task-container {
-	min-width: 20em;
-	max-width: 40em;
+	min-width: 10em;
+	max-width: 20em;
 	margin: 8px;
 }
 
@@ -106,12 +107,14 @@ button {
 }
 .task-title {
 	background-color: beige;
+	border-radius: 20px 20px 0 0;
 }
 .task-options {
 	display: flex;
 	align-items: center;
 	justify-content: space-between;
 	background-color: beige;
+	border-radius: 0 0 20px 20px;
 }
 .task-title {
 	color: black;
@@ -129,17 +132,5 @@ button {
 .assigned-to {
 	color: black;
 	text-align: right;
-	flex-grow: 0.7;
-}
-.task-container:nth-child(odd) .task-title {
-	border-top-left-radius: 20px;
-}
-.task-container:nth-child(odd) .task-options {
-	border-bottom-left-radius: 20px;
-}
-.task-container:nth-child(even) .task-title {
-	border-top-right-radius: 20px;
-}
-.task-container:nth-child(even) .task-options {
-	border-bottom-right-radius: 20px;
+	flex-grow: 0.5;
 }
