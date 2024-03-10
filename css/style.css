@@ -116,7 +116,10 @@ button {
 	transition: all 0.3s ease;
 	box-shadow: 0px 5px 10px gray;
 }
-
+.task-nav-right h4:last-child {
+	margin-top: 8px;
+	text-transform: uppercase;
+}
 .task-options,
 .task-title,
 .task-desc {
@@ -124,7 +127,6 @@ button {
 }
 .task-desc {
 	min-height: 6em;
-	background-color: teal;
 }
 .task-title {
 	background-color: beige;

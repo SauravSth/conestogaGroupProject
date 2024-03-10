@@ -11,15 +11,32 @@ function displayTasks(tasks = TaskManager.getTasks()) {
 		tasksContainer.innerHTML = `<p class="no-result">No task found.</p>`
 		return
 	}
+	let pColor = ''
 
 	tasks.forEach((task, index) => {
+		switch (task.priority) {
+			case 'low':
+				pColor = 'green'
+				break
+			case 'medium':
+				pColor = '#8B8000'
+				break
+			case 'high':
+				pColor = '#8B0000'
+				break
+			default:
+				pColor = 'transparent'
+		}
 		tasksContainer.innerHTML += `<div class="task-container">
 				<div class="task-details">
 					<div class="task-title">
 						<h3>${task.taskName}</h3>
-						<h4>Due: ${task.deadline}</h4>
+						<div class="task-nav-right">
+							<h4>Due: ${task.deadline}</h4>
+							<h4>Priority: ${task.priority}</h4>
+						</div>
 					</div>
-					<div class="task-desc count${index}">
+					<div class="task-desc" style="background-color: ${pColor}">
 						<p>${task.taskDesc}</p>
 					</div>
 				</div>
