@@ -47,15 +47,20 @@ h1 {
 
 #taskForm input,
 button {
-	padding: 0.5em;
+	padding: 1em;
 	border-radius: 20px;
 	border: 1px solid darkgray;
 	cursor: pointer;
 }
 
+#taskForm label {
+	margin-top: 10px;
+}
+
 button {
 	background-color: darkblue;
 	color: white;
+	margin-top: 10px;
 }
 
 #taskForm textarea {
@@ -98,17 +103,28 @@ button {
 	display: flex;
 	flex-wrap: wrap;
 	color: white;
+	justify-content: center;
 }
 .task-container {
-	min-width: 15em;
-	max-width: 25em;
+	min-width: 20em;
+	max-width: 30em;
+	height: fit-content;
 	margin: 8px;
+	border-radius: 20px;
+}
+.task-container:hover {
+	transition: all 0.3s ease;
+	box-shadow: 0px 5px 10px gray;
 }
 
 .task-options,
 .task-title,
 .task-desc {
 	padding: 20px;
+}
+.task-desc {
+	min-height: 6em;
+	background-color: teal;
 }
 .task-title {
 	background-color: beige;
@@ -127,9 +143,6 @@ button {
 .task-title {
 	color: black;
 }
-.task-desc {
-	background-color: teal;
-}
 .edit {
 	flex-grow: 0;
 }
@@ -143,7 +156,9 @@ button {
 	flex-grow: 0.5;
 }
 
-p { word-break: break-all }
+p {
+	word-break: break-word;
+}
 
 .no-result {
 	color: black;

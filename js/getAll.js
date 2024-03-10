@@ -3,10 +3,9 @@ document.addEventListener('DOMContentLoaded', () => {
 	displayTasks()
 })
 
-
 function displayTasks(tasks = TaskManager.getTasks()) {
-	const tasksContainer = $("#tasks-container");
-	tasksContainer.innerHTML = ""
+	const tasksContainer = $('#tasks-container')
+	tasksContainer.innerHTML = ''
 
 	if (tasks.length == 0) {
 		tasksContainer.innerHTML = `<p class="no-result">No task found.</p>`
@@ -14,13 +13,13 @@ function displayTasks(tasks = TaskManager.getTasks()) {
 	}
 
 	tasks.forEach((task, index) => {
-		tasksContainer.innerHTML +=
-			`<div class="task-container random-color">
+		tasksContainer.innerHTML += `<div class="task-container">
 				<div class="task-details">
 					<div class="task-title">
 						<h3>${task.taskName}</h3>
+						<h4>Due: ${task.deadline}</h4>
 					</div>
-					<div class="task-desc">
+					<div class="task-desc count${index}">
 						<p>${task.taskDesc}</p>
 					</div>
 				</div>
@@ -59,7 +58,7 @@ function editTask(event, taskId) {
 
 function searchTasks(event) {
 	event.preventDefault()
-	const keyword = $("#searchKeyword").value.trim()
+	const keyword = $('#searchKeyword').value.trim()
 	const matchedTasks = TaskManager.searchTasks(keyword)
 	displayTasks(matchedTasks)
 }
