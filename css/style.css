@@ -142,3 +142,9 @@ button {
 	text-align: right;
 	flex-grow: 0.5;
 }
+
+p { word-break: break-all }
+
+.no-result {
+	color: black;
+}
