@@ -13,9 +13,7 @@ function displaySuccessMessage(message) {
   }, 2000);
 }
 
-function checkData(e) {
-  e.preventDefault();
-
+function validateForm() {
   const errorMessages = document.querySelectorAll(".error-message");
   errorMessages.forEach((errorMessage) => {
     errorMessage.remove();
@@ -69,78 +67,70 @@ function checkData(e) {
     inputField.parentNode.insertBefore(errorElement, inputField.nextSibling);
   });
 
-  if (errors.length > 0) {
+  return errors.length == 0;
+}
+
+// Add event listener for form submission
+document.addEventListener("DOMContentLoaded", () => {
+  $("#taskForm").addEventListener("submit", submitForm);
+  fillForm();
+});
+
+// fill form for updating task
+function fillForm() {
+  // Parse URL parameters
+  const queryParams = new URLSearchParams(window.location.search);
+  const taskId = parseInt(queryParams.get('taskId'));
+  if (!taskId) {
+    return;
+  }
+  // Populate form fields with task data
+  $('#taskName').value = queryParams.get('taskName') || '';
+  $('#taskDesc').value = queryParams.get('taskDesc') || '';
+  $('#assignedTo').value = queryParams.get('assignedTo') || '';
+  $('#deadline').value = queryParams.get('deadline') || '';
+  const priority = queryParams.get('priority') || '';
+  // Check the radio button corresponding to the priority
+  document.getElementById(priority).checked = true;
+}
+
+function submitForm(e) {
+  e.preventDefault();
+  if (!validateForm()) {
     return;
   }
 
-  // Create a new task object
-  const newTask = {
-    taskName: taskName,
-    taskDesc: taskDesc,
-    assignedTo: assignedTo,
-    deadline: deadline,
-    priority: priority,
+  // Parse URL parameters
+  const queryParams = new URLSearchParams(window.location.search);
+  // Retrieve task ID from URL parameters
+  const taskId = parseInt(queryParams.get('taskId'));
+
+  const task = {
+    taskName: $('#taskName').value.trim(),
+    taskDesc: $('#taskDesc').value.trim(),
+    assignedTo: $('#assignedTo').value.trim(),
+    deadline: $('#deadline').value,
+    priority: document.querySelector('input[name="priority"]:checked').id
   };
 
-  TaskManager.addTask(newTask);
+  if (taskId) {
+    // If taskId exists, update existing task
+    task.taskId = taskId;
+    TaskManager.updateTask(task);
+  } else {
+    // If taskId doesn't exist, add new task
+    TaskManager.addTask(task);
+  }
 
-  document.getElementById("taskForm").reset();
-
+  $("#taskForm").reset();
   // Display success message
-  displaySuccessMessage("Task added successfully");
+  const operation = taskId ? "updated" : "added";
+  displaySuccessMessage("Task " + operation + " successfully");
 
   // Redirect to getAll.html after a short delay
   setTimeout(() => {
     window.location.href = "/getAll.html";
   }, 1000);
 }
-
-document.addEventListener("DOMContentLoaded", () => {
-  document.getElementById("taskForm").addEventListener("submit", checkData);
-});
-
-document.addEventListener('DOMContentLoaded', () => {
-  // Parse URL parameters
-  const queryParams = new URLSearchParams(window.location.search);
-  // Populate form fields with task data
-  document.getElementById('taskName').value = queryParams.get('taskName') || '';
-  document.getElementById('taskDesc').value = queryParams.get('taskDesc') || '';
-  document.getElementById('assignedTo').value = queryParams.get('assignedTo') || '';
-  document.getElementById('deadline').value = queryParams.get('deadline') || '';
-  const priority = queryParams.get('priority') || '';
-  // Check the radio button corresponding to the priority
-  document.getElementById(priority).checked = true;
-  
-  // Add event listener for form submission
-  document.getElementById('taskForm').addEventListener('submit', event => {
-      event.preventDefault();
-      // Retrieve task ID from URL parameters
-      const taskId = parseInt(queryParams.get('taskId'));
-      if (taskId) {
-          // If taskId exists, update existing task
-          const updatedTask = {
-              taskId: taskId,
-              taskName: document.getElementById('taskName').value.trim(),
-              taskDesc: document.getElementById('taskDesc').value.trim(),
-              assignedTo: document.getElementById('assignedTo').value.trim(),
-              deadline: document.getElementById('deadline').value,
-              priority: document.querySelector('input[name="priority"]:checked').id
-          };
-          TaskManager.updateTask(updatedTask);
-      } else {
-          // If taskId doesn't exist, add new task
-          const newTask = {
-              taskName: document.getElementById('taskName').value.trim(),
-              taskDesc: document.getElementById('taskDesc').value.trim(),
-              assignedTo: document.getElementById('assignedTo').value.trim(),
-              deadline: document.getElementById('deadline').value,
-              priority: document.querySelector('input[name="priority"]:checked').id
-          };
-          TaskManager.addTask(newTask);
-      }
-      // Redirect to getAll.html
-      window.location.href = 'getAll.html';
-  });
-});
 
 
