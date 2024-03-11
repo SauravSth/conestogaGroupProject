@@ -1,34 +1,51 @@
-
 function checkData(e) {
-	e.preventDefault()
+  e.preventDefault();
 
-	let radios = document.getElementsByName('priority')
-	let priority = ''
+  let radios = document.getElementsByName("priority");
+  let priority = "";
 
-	let taskName = $('#taskName').value
-	let taskDesc = $('#taskDesc').value
-	let assignedTo = $('#assignedTo').value
-	let deadline = $('#deadline').value
+  let taskName = $("#taskName").value.trim();
+  let taskDesc = $("#taskDesc").value.trim();
+  let assignedTo = $("#assignedTo").value.trim();
+  let deadline = $("#deadline").value.trim();
 
-	radios.forEach((radio) => {
-		if (radio.checked) {
-			priority = radio.id
-		}
-	})
+  radios.forEach((radio) => {
+    if (radio.checked) {
+      priority = radio.id;
+    }
+  });
 
-	// Create a new task object
-	const newTask = {
-		taskName: taskName,
-		taskDesc: taskDesc,
-		assignedTo: assignedTo,
-		deadline: deadline,
-		priority: priority,
-	}
+  // Basic validations
+  if (
+    taskName === "" ||
+    taskDesc === "" ||
+    assignedTo === "" ||
+    deadline === "" ||
+    priority === ""
+  ) {
+    alert("Please fill out all fields.");
+    return;
+  }
 
-	TaskManager.addTask(newTask)
-	window.location.href = "/getAll.html"
+  // Validate assignedTo field for English alphabets only
+  if (!/^[a-zA-Z ]+$/.test(assignedTo)) {
+    alert("Please enter valid name in the Assigned To field.");
+    return;
+  }
+
+  // Create a new task object
+  const newTask = {
+    taskName: taskName,
+    taskDesc: taskDesc,
+    assignedTo: assignedTo,
+    deadline: deadline,
+    priority: priority,
+  };
+
+  TaskManager.addTask(newTask);
+  window.location.href = "/getAll.html";
 }
 
-document.addEventListener('DOMContentLoaded', () => {
-	$('#taskForm').addEventListener('submit', checkData)
-})
+document.addEventListener("DOMContentLoaded", () => {
+  $("#taskForm").addEventListener("submit", checkData);
+});
