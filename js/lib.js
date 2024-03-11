@@ -37,21 +37,20 @@ class TaskManager {
         })
     }
 
-    static editTask(taskId) {
-        // Retrieve all tasks
-        const tasks = this.getTasks();
+    updateTask(updatedTask) {
+       
+        let tasks = JSON.parse(localStorage.getItem('tasks')) || [];
         
-        // Find task with matching taskId
-        return tasks.find(task => task.taskId === taskId);
-    }
-
-    static deleteTask() {
-         
-         const tasks = this.getTasks();
+        const index = tasks.findIndex(task => task.taskId === updatedTask.taskId);
         
-         // Find task with matching taskId
-         return tasks.find(task => task.taskId === taskId);
+        if (index !== -1) {
+            
+            tasks[index] = updatedTask;
+            
+            localStorage.setItem('tasks', JSON.stringify(tasks));
+        }
     }
+   
 }
 
 const $ = (selector) => document.querySelector(selector)

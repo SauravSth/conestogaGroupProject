@@ -29,8 +29,7 @@ function displayTasks(tasks = TaskManager.getTasks().reverse()) {
 				pColorDark = '#800000'
 				break
 			default:
-				pColor = 'black'
-				pColorDark = 'black'
+				pColor = 'transparent'
 		}
 		tasksContainer.innerHTML += `<div class="task-container">
 				<div class="task-details">
@@ -67,6 +66,7 @@ function displayTasks(tasks = TaskManager.getTasks().reverse()) {
 				</div>
 		</div>
 		`
+		console.log(task)
 	})
 }
 
@@ -80,27 +80,19 @@ function deleteTask(event, taskId) {
 
 function editTask(event, taskId) {
     event.preventDefault();
-    const task = TaskManager.editTask(taskId);
+    // Retrieve task data from local storage
+    const tasks = TaskManager.getTasks();
+    const task = tasks.find(task => task.taskId === taskId);
     if (task) {
-        // Populate form fields with task details
-        $('#taskName').value = task.taskName;
-        $('#taskDesc').value = task.taskDesc;
-        $('#assignedTo').value = task.assignedTo;
-        $('#deadline').value = task.deadline;
-        // Check the radio button corresponding to the priority
-        switch (task.priority) {
-            case 'low':
-                $('#low').checked = true;
-                break;
-            case 'medium':
-                $('#medium').checked = true;
-                break;
-            case 'high':
-                $('#high').checked = true;
-                break;
-        }
-    } else {
-        alert('Task not found!');
+        // Encode task data as URL parameters
+        const queryParams = new URLSearchParams();
+        queryParams.set('taskName', task.taskName);
+        queryParams.set('taskDesc', task.taskDesc);
+        queryParams.set('assignedTo', task.assignedTo);
+        queryParams.set('deadline', task.deadline);
+        queryParams.set('priority', task.priority);
+        // Redirect to index.html with task data as URL parameters
+        window.location.href = `index.html?${queryParams.toString()}`;
     }
 }
 
