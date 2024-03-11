@@ -94,7 +94,6 @@ function editTask(event, taskId) {
     }
 }
 
-
 function searchTasks(event) {
 	event.preventDefault()
 	const keyword = $('#searchKeyword').value.trim()
