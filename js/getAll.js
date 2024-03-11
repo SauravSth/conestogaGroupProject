@@ -71,12 +71,39 @@ function displayTasks(tasks = TaskManager.getTasks().reverse()) {
 }
 
 function deleteTask(event, taskId) {
-	event.preventDefault()
+	event.preventDefault();
+
+	const task = TaskManager.deleteTask(taskId);
+	delete localStorage.task.taskId;
+
 }
 
 function editTask(event, taskId) {
-	event.preventDefault()
+    event.preventDefault();
+    const task = TaskManager.editTask(taskId);
+    if (task) {
+        // Populate form fields with task details
+        $('#taskName').value = task.taskName;
+        $('#taskDesc').value = task.taskDesc;
+        $('#assignedTo').value = task.assignedTo;
+        $('#deadline').value = task.deadline;
+        // Check the radio button corresponding to the priority
+        switch (task.priority) {
+            case 'low':
+                $('#low').checked = true;
+                break;
+            case 'medium':
+                $('#medium').checked = true;
+                break;
+            case 'high':
+                $('#high').checked = true;
+                break;
+        }
+    } else {
+        alert('Task not found!');
+    }
 }
+
 
 function searchTasks(event) {
 	event.preventDefault()

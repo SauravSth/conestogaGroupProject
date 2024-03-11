@@ -37,12 +37,20 @@ class TaskManager {
         })
     }
 
-    static editTask() {
-
+    static editTask(taskId) {
+        // Retrieve all tasks
+        const tasks = this.getTasks();
+        
+        // Find task with matching taskId
+        return tasks.find(task => task.taskId === taskId);
     }
 
     static deleteTask() {
-
+         
+         const tasks = this.getTasks();
+        
+         // Find task with matching taskId
+         return tasks.find(task => task.taskId === taskId);
     }
 }
 
