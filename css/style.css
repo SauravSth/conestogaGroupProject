@@ -60,7 +60,6 @@ button {
 button {
 	background-color: darkblue;
 	color: white;
-	margin-top: 10px;
 }
 
 #taskForm textarea {
@@ -70,10 +69,7 @@ button {
 }
 
 /* GET ALL TASK CSS */
-.search-form form {
-	display: flex;
-	justify-content: center;
-}
+
 .search-wrapper {
 	display: flex;
 	border: 1px solid darkgray;
