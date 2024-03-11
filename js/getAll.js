@@ -72,20 +72,18 @@ function displayTasks(tasks = TaskManager.getTasks().reverse()) {
 
 function deleteTask(event, taskId) {
 	event.preventDefault();
-
-	const task = TaskManager.deleteTask(taskId);
-	delete localStorage.task.taskId;
-
+	TaskManager.deleteTask(taskId);
+	displayTasks();
 }
 
 function editTask(event, taskId) {
     event.preventDefault();
     // Retrieve task data from local storage
-    const tasks = TaskManager.getTasks();
-    const task = tasks.find(task => task.taskId === taskId);
+    const task = TaskManager.findTaskById(taskId);
     if (task) {
         // Encode task data as URL parameters
         const queryParams = new URLSearchParams();
+        queryParams.set('taskId', taskId);
         queryParams.set('taskName', task.taskName);
         queryParams.set('taskDesc', task.taskDesc);
         queryParams.set('assignedTo', task.assignedTo);

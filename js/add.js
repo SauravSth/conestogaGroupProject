@@ -115,7 +115,7 @@ document.addEventListener('DOMContentLoaded', () => {
   document.getElementById('taskForm').addEventListener('submit', event => {
       event.preventDefault();
       // Retrieve task ID from URL parameters
-      const taskId = queryParams.get('taskId');
+      const taskId = parseInt(queryParams.get('taskId'));
       if (taskId) {
           // If taskId exists, update existing task
           const updatedTask = {
@@ -124,16 +124,9 @@ document.addEventListener('DOMContentLoaded', () => {
               taskDesc: document.getElementById('taskDesc').value.trim(),
               assignedTo: document.getElementById('assignedTo').value.trim(),
               deadline: document.getElementById('deadline').value,
-              priority: document.querySelector('input[name="priority"]:checked').value
+              priority: document.querySelector('input[name="priority"]:checked').id
           };
-          // Retrieve tasks from local storage
-          let tasks = JSON.parse(localStorage.getItem('tasks')) || [];
-          // Find the index of the task with the matching taskId
-          const index = tasks.findIndex(task => task.taskId === taskId);
-          // Update the task in the tasks array
-          tasks[index] = updatedTask;
-          // Store the updated tasks array back in local storage
-          localStorage.setItem('tasks', JSON.stringify(tasks));
+          TaskManager.updateTask(updatedTask);
       } else {
           // If taskId doesn't exist, add new task
           const newTask = {
@@ -141,7 +134,7 @@ document.addEventListener('DOMContentLoaded', () => {
               taskDesc: document.getElementById('taskDesc').value.trim(),
               assignedTo: document.getElementById('assignedTo').value.trim(),
               deadline: document.getElementById('deadline').value,
-              priority: document.querySelector('input[name="priority"]:checked').value
+              priority: document.querySelector('input[name="priority"]:checked').id
           };
           TaskManager.addTask(newTask);
       }

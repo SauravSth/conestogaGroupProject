@@ -20,8 +20,14 @@ class TaskManager {
         localStorage.setItem('tasks', JSON.stringify(tasks))
     }
 
+    // Retrieve tasks from local storage
     static getTasks() {
         return JSON.parse(localStorage.getItem('tasks')) || []
+    }
+
+    // Store the tasks array back in local storage
+    static saveTasks(tasks) {
+        return localStorage.setItem('tasks', JSON.stringify(tasks));
     }
 
     static searchTasks(keyword) {
@@ -33,24 +39,37 @@ class TaskManager {
         return tasks.filter((task) => {
             return task.taskName.includes(keyword)
                 || task.taskDesc.includes(keyword)
-                || task.assignedTo.includes(keyword);
+                || task.assignedTo.includes(keyword)
         })
     }
 
-    updateTask(updatedTask) {
-       
-        let tasks = JSON.parse(localStorage.getItem('tasks')) || [];
-        
-        const index = tasks.findIndex(task => task.taskId === updatedTask.taskId);
-        
+    // Update the task in the tasks array
+    static updateTask(updatedTask) {
+        const tasks = this.getTasks();
+        const index = this.findIndexById(updatedTask.taskId);
         if (index !== -1) {
-            
             tasks[index] = updatedTask;
-            
-            localStorage.setItem('tasks', JSON.stringify(tasks));
+            this.saveTasks(tasks);
         }
     }
-   
+
+    static deleteTask(taskId) {
+        const tasks = this.getTasks();
+        const index = this.findIndexById(taskId);
+        if (index !== -1) {
+            tasks.splice(index, 1);
+            this.saveTasks(tasks);
+        }
+    }
+
+    static findTaskById(taskId) {
+        return this.getTasks().find(task => task.taskId == taskId);
+    }
+
+    // Find the index of the task with the matching taskId
+    static findIndexById(taskId) {
+        return this.getTasks().findIndex(task => task.taskId === taskId);
+    }
 }
 
 const $ = (selector) => document.querySelector(selector)
