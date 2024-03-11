@@ -115,7 +115,7 @@ function submitForm(e) {
 
   if (taskId) {
     // If taskId exists, update existing task
-    task.taskId = taskId; 
+    task.taskId = taskId;
     TaskManager.updateTask(task);
   } else {
     // If taskId doesn't exist, add new task
