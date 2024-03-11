@@ -29,7 +29,8 @@ function displayTasks(tasks = TaskManager.getTasks().reverse()) {
 				pColorDark = '#800000'
 				break
 			default:
-				pColor = 'transparent'
+				pColor = 'black'
+				pColorDark = 'black'
 		}
 		tasksContainer.innerHTML += `<div class="task-container">
 				<div class="task-details">
@@ -66,7 +67,6 @@ function displayTasks(tasks = TaskManager.getTasks().reverse()) {
 				</div>
 		</div>
 		`
-		console.log(task)
 	})
 }
 
