@@ -1,5 +1,25 @@
+// function to display success message after the succesful submit
+function displaySuccessMessage(message) {
+  const successMessage = document.createElement("div");
+  successMessage.textContent = message;
+  successMessage.className = "success-message";
+
+  const formElement = document.getElementById("taskForm");
+  formElement.appendChild(successMessage);
+
+  // Clear the success message after a certain time
+  setTimeout(() => {
+    successMessage.remove();
+  }, 2000);
+}
+
 function checkData(e) {
   e.preventDefault();
+
+  const errorMessages = document.querySelectorAll(".error-message");
+  errorMessages.forEach((errorMessage) => {
+    errorMessage.remove();
+  });
 
   let radios = document.getElementsByName("priority");
   let priority = "";
@@ -16,20 +36,40 @@ function checkData(e) {
   });
 
   // Basic validations
-  if (
-    taskName === "" ||
-    taskDesc === "" ||
-    assignedTo === "" ||
-    deadline === "" ||
-    priority === ""
-  ) {
-    alert("Please fill out all fields.");
-    return;
+  const errors = [];
+
+  if (taskName === "") {
+    errors.push({ field: "taskName", message: "Task Name is required." });
+  }
+  if (taskDesc === "") {
+    errors.push({
+      field: "taskDesc",
+      message: "Task Description is required.",
+    });
+  }
+  if (deadline === "") {
+    errors.push({ field: "deadline", message: "Deadline is required." });
+  }
+  if (priority === "") {
+    errors.push({ field: "priority", message: "Priority is required." });
+  }
+  if (!/^[a-zA-Z ]+$/.test(assignedTo) || assignedTo === "") {
+    errors.push({
+      field: "assignedTo",
+      message: "Please enter valid name in the Assigned To field.",
+    });
   }
 
-  // Validate assignedTo field for English alphabets only
-  if (!/^[a-zA-Z ]+$/.test(assignedTo)) {
-    alert("Please enter valid name in the Assigned To field.");
+  // Display error messages on the form
+  errors.forEach((error) => {
+    const inputField = document.getElementById(error.field);
+    const errorElement = document.createElement("span");
+    errorElement.className = "error-message";
+    errorElement.textContent = error.message;
+    inputField.parentNode.insertBefore(errorElement, inputField.nextSibling);
+  });
+
+  if (errors.length > 0) {
     return;
   }
 
@@ -43,9 +83,18 @@ function checkData(e) {
   };
 
   TaskManager.addTask(newTask);
-  window.location.href = "/getAll.html";
+
+  document.getElementById("taskForm").reset();
+
+  // Display success message
+  displaySuccessMessage("Task added successfully");
+
+  // Redirect to getAll.html after a short delay
+  setTimeout(() => {
+    window.location.href = "/getAll.html";
+  }, 1000);
 }
 
 document.addEventListener("DOMContentLoaded", () => {
-  $("#taskForm").addEventListener("submit", checkData);
+  document.getElementById("taskForm").addEventListener("submit", checkData);
 });
