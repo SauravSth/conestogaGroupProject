@@ -129,22 +129,21 @@ button {
 	min-height: 6em;
 }
 .task-title {
-	background-color: beige;
 	border-radius: 20px 20px 0 0;
 	display: flex;
 	justify-content: space-between;
 	align-items: center;
 }
+.task-title h3 {
+	width: 50%;
+}
 .task-options {
 	display: flex;
 	align-items: center;
 	justify-content: space-between;
-	background-color: beige;
 	border-radius: 0 0 20px 20px;
 }
-.task-title {
-	color: black;
-}
+
 .edit {
 	flex-grow: 0;
 }
@@ -153,7 +152,6 @@ button {
 	width: 1.5em;
 }
 .assigned-to {
-	color: black;
 	text-align: right;
 	flex-grow: 0.5;
 }

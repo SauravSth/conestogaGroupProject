@@ -3,7 +3,7 @@ document.addEventListener('DOMContentLoaded', () => {
 	displayTasks()
 })
 
-function displayTasks(tasks = TaskManager.getTasks()) {
+function displayTasks(tasks = TaskManager.getTasks().reverse()) {
 	const tasksContainer = $('#tasks-container')
 	tasksContainer.innerHTML = ''
 
@@ -11,25 +11,29 @@ function displayTasks(tasks = TaskManager.getTasks()) {
 		tasksContainer.innerHTML = `<p class="no-result">No task found.</p>`
 		return
 	}
-	let pColor = ''
+	let pColor = '',
+		pColorDark = ''
 
 	tasks.forEach((task, index) => {
 		switch (task.priority) {
 			case 'low':
-				pColor = 'green'
+				pColor = '#579bfc'
+				pColorDark = '#3286fc'
 				break
 			case 'medium':
-				pColor = '#8B8000'
+				pColor = '#DAA520'
+				pColorDark = '#CC7722'
 				break
 			case 'high':
-				pColor = '#8B0000'
+				pColor = '#990000'
+				pColorDark = '#800000'
 				break
 			default:
 				pColor = 'transparent'
 		}
 		tasksContainer.innerHTML += `<div class="task-container">
 				<div class="task-details">
-					<div class="task-title">
+					<div class="task-title" style="background-color: ${pColorDark}">
 						<h3>${task.taskName}</h3>
 						<div class="task-nav-right">
 							<h4>Due: ${task.deadline}</h4>
@@ -40,7 +44,7 @@ function displayTasks(tasks = TaskManager.getTasks()) {
 						<p>${task.taskDesc}</p>
 					</div>
 				</div>
-				<div class="task-options">
+				<div class="task-options" style="background-color: ${pColorDark}">
 					<div class="edit">
 						<a href="" onclick="editTask(event, ${task.taskId});">
 							<img
@@ -62,6 +66,7 @@ function displayTasks(tasks = TaskManager.getTasks()) {
 				</div>
 		</div>
 		`
+		console.log(task)
 	})
 }
 
