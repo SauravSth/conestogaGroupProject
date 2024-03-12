@@ -71,7 +71,10 @@ function displayTasks(tasks = TaskManager.getTasks().reverse()) {
 
 function deleteTask(event, taskId) {
 	event.preventDefault()
-	TaskManager.deleteTask(taskId)
+	let confirmVal = confirm('Are you sure you want to delete this task?')
+	if (confirmVal) {
+		TaskManager.deleteTask(taskId)
+	}
 	displayTasks()
 }
 
