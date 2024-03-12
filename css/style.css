@@ -48,6 +48,7 @@ nav li:first-child {
 
 nav li:first-child {
 	background-color: transparent;
+	color: #c8903c;
 }
 
 #taskForm {

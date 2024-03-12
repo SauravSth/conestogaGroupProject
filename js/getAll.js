@@ -17,11 +17,11 @@ function displayTasks(tasks = TaskManager.getTasks().reverse()) {
 	tasks.forEach((task, index) => {
 		switch (task.priority) {
 			case 'low':
-				pColor = '#579bfc'
-				pColorDark = '#3286fc'
+				pColor = 'rgb(95, 176, 15)'
+				pColorDark = 'rgb(67, 132, 1)'
 				break
 			case 'medium':
-				pColor = '#DAA520'
+				pColor = '#c8903c'
 				pColorDark = '#CC7722'
 				break
 			case 'high':
