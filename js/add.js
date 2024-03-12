@@ -129,7 +129,7 @@ function submitForm(e) {
 
   // Redirect to getAll.html after a short delay
   setTimeout(() => {
-    window.location.href = "/getAll.html";
+    window.location.href = "getAll.html";
   }, 1000);
 }
 
