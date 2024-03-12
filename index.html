@@ -1,43 +1,64 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Task Manager App</title>
-    <link rel="stylesheet" href="./css/reset.css" />
-    <link rel="stylesheet" href="./css/style.css" />
-  </head>
-  <body>
-    <nav>
-      <ul>
-        <li><a href="./getAll.html">Get All Tasks</a></li>
-      </ul>
-    </nav>
-    <main>
-      <h1>Task Manager App</h1>
-      <form id="taskForm">
-        <label for="taskName">Task Name</label>
-        <input type="text" name="taskName" id="taskName" />
-        <label for="taskDesc">Task Description</label>
-        <textarea name="taskDesc" id="taskDesc" cols="30" rows="6"></textarea>
-        <label for="assignedTo">Assigned To</label>
-        <input type="text" name="assignedTo" id="assignedTo" />
-        <label for="deadline">Deadline</label>
-        <input type="date" name="deadline" id="deadline" />
-        <label for="priority">Priority</label>
-        <div class="radioGroup">
-          <input type="radio" name="priority" id="low" value="l" checked />
-          Low
-          <input type="radio" name="priority" id="medium" value="m" />
-          Medium
-          <input type="radio" name="priority" id="high" value="h" />
-          High
-        </div>
-        <button type="submit" id="submit">Submit</button>
-      </form>
-    </main>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    <script src="./js/lib.js"></script>
-    <script src="./js/add.js"></script>
-  </body>
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>Task Manager App</title>
+		<link rel="stylesheet" href="./css/reset.css" />
+		<link rel="stylesheet" href="./css/style.css" />
+	</head>
+	<body>
+		<nav>
+			<ul>
+				<li><img src="./images/logo.png" alt="Logo" /></li>
+				<li><a href="./getAll.html">Get All Tasks</a></li>
+			</ul>
+		</nav>
+		<main>
+			<h1>Task Manager App</h1>
+			<form id="taskForm">
+				<label for="taskName">Task Name</label>
+				<input type="text" name="taskName" id="taskName" />
+				<label for="taskDesc">Task Description</label>
+				<textarea
+					name="taskDesc"
+					id="taskDesc"
+					cols="30"
+					rows="6"
+				></textarea>
+				<label for="assignedTo">Assigned To</label>
+				<input type="text" name="assignedTo" id="assignedTo" />
+				<label for="deadline">Deadline</label>
+				<input type="date" name="deadline" id="deadline" />
+				<label for="priority">Priority</label>
+				<div class="radioGroup">
+					<input
+						type="radio"
+						name="priority"
+						id="low"
+						value="l"
+						checked
+					/>
+					Low
+					<input type="radio" name="priority" id="medium" value="m" />
+					Medium
+					<input type="radio" name="priority" id="high" value="h" />
+					High
+				</div>
+				<button type="submit" id="submit">Submit</button>
+			</form>
+		</main>
+		<footer>
+			<div class="footer-wrapper">
+				<h2>Credits:</h2>
+				<p>
+					Sajith Koovaparambil<br />Liu Peng<br />Juned Sheikh<br />Saurav
+					Shrestha
+				</p>
+			</div>
+		</footer>
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+		<script src="./js/lib.js"></script>
+		<script src="./js/add.js"></script>
+	</body>
 </html>
