@@ -66,7 +66,6 @@ function displayTasks(tasks = TaskManager.getTasks().reverse()) {
 				</div>
 		</div>
 		`
-		console.log(task)
 	})
 }
 
