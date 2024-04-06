@@ -13,6 +13,15 @@ function displaySuccessMessage(message) {
   }, 2000);
 }
 
+function displayErrorMessage(message) {
+  const msg = document.createElement("span");
+  msg.textContent = message;
+  msg.className = "error-message";
+
+  const formElement = document.getElementById("taskForm");
+  formElement.appendChild(msg);
+}
+
 function validateForm() {
   const errorMessages = document.querySelectorAll(".error-message");
   errorMessages.forEach((errorMessage) => {
@@ -113,24 +122,30 @@ function submitForm(e) {
     priority: document.querySelector('input[name="priority"]:checked').id
   };
 
+  const onSuccess = (res) => {
+    $("#taskForm").reset();
+    // Display success message
+    const operation = taskId ? "updated" : "added";
+    displaySuccessMessage("Task " + operation + " successfully");
+
+    // Redirect to getAll.html after a short delay
+    setTimeout(() => {
+      window.location.href = "getAll.html";
+    }, 1000);
+  }
+
+  const onFailed = (res) => {
+    displayErrorMessage(res.error);
+  }
+
   if (taskId) {
     // If taskId exists, update existing task
     task.taskId = taskId;
-    TaskManager.updateTask(task);
+    TaskManager.updateTask(task, onSuccess, onFailed);
   } else {
     // If taskId doesn't exist, add new task
-    TaskManager.addTask(task);
+    TaskManager.addTask(task, onSuccess, onFailed);
   }
-
-  $("#taskForm").reset();
-  // Display success message
-  const operation = taskId ? "updated" : "added";
-  displaySuccessMessage("Task " + operation + " successfully");
-
-  // Redirect to getAll.html after a short delay
-  setTimeout(() => {
-    window.location.href = "getAll.html";
-  }, 1000);
 }
 
 

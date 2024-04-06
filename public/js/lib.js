@@ -7,15 +7,23 @@ class TaskManager {
 		return nextId
 	}
 
-	static addTask(newTask) {
-		newTask.taskId = this.getNextTaskId()
-		const tasks = this.getTasks()
-
-		// Push the new task object into the dataArray
-		tasks.push(newTask)
-
-		// Update the 'FormData' in localStorage with the updated dataArray
-		localStorage.setItem('tasks', JSON.stringify(tasks))
+	static async addTask(newTask, onSuccess, onFailed) {
+		fetch("/api/task/",
+			{
+				method: "POST",
+				headers: {
+					"Content-Type": "application/json"
+				},
+				body: JSON.stringify(newTask)
+			})
+			.then(response => response.json())
+			.then(json => {
+				if (json.status == "ok") {
+					onSuccess?.(json);
+				} else {
+					onFailed?.(json);
+				}
+			}).catch( e => console.log(e));
 	}
 
 	// Retrieve tasks from local storage
