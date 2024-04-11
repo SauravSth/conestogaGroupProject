@@ -1,1 +1,1 @@
-[]
+[{"taskId":1,"taskName":"Do group project","taskDesc":"Convert into Node","assignedTo":"Saurav","deadline":"2024-04-06","priority":"medium"},{"taskId":2,"taskName":"Do full stack assignment","taskDesc":"Assignment","assignedTo":"Everyone","deadline":"2024-04-08","priority":"high"},{"taskId":3,"taskName":"Do Laundry","taskDesc":"Laundry","assignedTo":"Me","deadline":"2024-04-24","priority":"low"}]

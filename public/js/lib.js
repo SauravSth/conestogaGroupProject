@@ -8,32 +8,37 @@ class TaskManager {
 	}
 
 	static async addTask(newTask, onSuccess, onFailed) {
-		fetch("/api/task/",
-			{
-				method: "POST",
-				headers: {
-					"Content-Type": "application/json"
-				},
-				body: JSON.stringify(newTask)
-			})
-			.then(response => response.json())
-			.then(json => {
-				if (json.status == "ok") {
-					onSuccess?.(json);
+		fetch('/api/task/', {
+			method: 'POST',
+			headers: {
+				'Content-Type': 'application/json',
+			},
+			body: JSON.stringify(newTask),
+		})
+			.then((response) => response.json())
+			.then((json) => {
+				if (json.status == 'ok') {
+					onSuccess?.(json)
 				} else {
-					onFailed?.(json);
+					onFailed?.(json)
 				}
-			}).catch( e => console.log(e));
-	}
-
-	// Retrieve tasks from local storage
-	static getTasks() {
-		return JSON.parse(localStorage.getItem('tasks')) || []
+			})
+			.catch((e) => console.log(e))
 	}
 
 	// Store the tasks array back in local storage
 	static saveTasks(tasks) {
 		return localStorage.setItem('tasks', JSON.stringify(tasks))
+	}
+
+	static getTasks() {
+		return fetch('/api/task')
+			.then((res) => res.text())
+			.then(
+				(html) =>
+					(document.getElementById('tasks-container').innerHTML =
+						html)
+			)
 	}
 
 	static searchTasks(keyword) {
