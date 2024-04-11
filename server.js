@@ -139,6 +139,41 @@ app.get('/api/task', (req, res) => {
 	})
 })
 
+
+
+// Delete Task
+app.delete('/api/task/:taskId', (req, res) => {
+	const taskId = parseInt(req.params.taskId);
+	console.log('taskId recived here:' + taskId);
+	fs.readFile(DATA_FILE, (err, data) => {
+	  if (err) {
+		sendError(res, err);
+		return;
+	  }
+  
+	  let taskList = JSON.parse(data);
+	  const taskIndex = taskList.findIndex((task) => task.taskId === taskId);
+  
+	  if (taskIndex === -1) {
+		sendError(res, `Task with ID ${taskId} not found.`);
+		return;
+	  }
+  
+	  taskList.splice(taskIndex, 1);
+  
+	  fs.writeFile(DATA_FILE, JSON.stringify(taskList), (err) => {
+		if (err) {
+		  sendError(res, err);
+		} else {
+		  sendOk(res, `Task  ${taskId} deleted succesfully.`, null);
+		}
+	  });
+	});
+  });
+
+
+
+
 app.get('/api/oneTask', (req, res) => {
 	//
 	const data = req.body

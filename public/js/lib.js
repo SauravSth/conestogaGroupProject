@@ -66,14 +66,23 @@ class TaskManager {
 		}
 	}
 
-	static deleteTask(taskId) {
-		const tasks = this.getTasks()
-		const index = this.findIndexById(taskId)
-		if (index !== -1) {
-			tasks.splice(index, 1)
-			this.saveTasks(tasks)
-		}
-	}
+	static async deleteTask(taskId) {
+		return fetch(`/api/task/${taskId}`, {
+		  method: 'DELETE',
+		})
+		  .then((response) => response.json())
+		  .then((json) => {
+			if (json.status === 'ok') {
+			  console.log(`Task : ${taskId} deleted frm the lis.`);
+			  this.getTasks();
+			} else {
+			  console.error(`Error while deleing task ${taskId}: ${json.error}`);
+			}
+		  })
+		  .catch((error) => {
+			console.error('Error in deleting task:', error);
+		  });
+	  }
 
 	static findTaskById(taskId) {
 		return this.getTasks().find((task) => task.taskId == taskId)
