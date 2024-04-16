@@ -1,10 +1,10 @@
 // function to display success message after the successful submit
 function displaySuccessMessage(message) {
-  const successMessage = document.createElement("div");
+  const successMessage = document.createElement('div');
   successMessage.textContent = message;
-  successMessage.className = "success-message";
+  successMessage.className = 'success-message';
 
-  const formElement = document.getElementById("taskForm");
+  const formElement = document.getElementById('taskForm');
   formElement.appendChild(successMessage);
 
   // Clear the success message after a certain time
@@ -14,27 +14,27 @@ function displaySuccessMessage(message) {
 }
 
 function displayErrorMessage(message) {
-  const msg = document.createElement("span");
+  const msg = document.createElement('span');
   msg.textContent = message;
-  msg.className = "error-message";
+  msg.className = 'error-message';
 
-  const formElement = document.getElementById("taskForm");
+  const formElement = document.getElementById('taskForm');
   formElement.appendChild(msg);
 }
 
 function validateForm() {
-  const errorMessages = document.querySelectorAll(".error-message");
+  const errorMessages = document.querySelectorAll('.error-message');
   errorMessages.forEach((errorMessage) => {
     errorMessage.remove();
   });
 
-  let radios = document.getElementsByName("priority");
-  let priority = "";
+  let radios = document.getElementsByName('priority');
+  let priority = '';
 
-  let taskName = $("#taskName").value.trim();
-  let taskDesc = $("#taskDesc").value.trim();
-  let assignedTo = $("#assignedTo").value.trim();
-  let deadline = $("#deadline").value.trim();
+  let taskName = $('#taskName').value.trim();
+  let taskDesc = $('#taskDesc').value.trim();
+  let assignedTo = $('#assignedTo').value.trim();
+  let deadline = $('#deadline').value.trim();
 
   radios.forEach((radio) => {
     if (radio.checked) {
@@ -45,33 +45,33 @@ function validateForm() {
   // Basic validations
   const errors = [];
 
-  if (taskName === "") {
-    errors.push({ field: "taskName", message: "Task Name is required." });
+  if (taskName === '') {
+    errors.push({ field: 'taskName', message: 'Task Name is required.' });
   }
-  if (taskDesc === "") {
+  if (taskDesc === '') {
     errors.push({
-      field: "taskDesc",
-      message: "Task Description is required.",
+      field: 'taskDesc',
+      message: 'Task Description is required.',
     });
   }
-  if (deadline === "") {
-    errors.push({ field: "deadline", message: "Deadline is required." });
+  if (deadline === '') {
+    errors.push({ field: 'deadline', message: 'Deadline is required.' });
   }
-  if (priority === "") {
-    errors.push({ field: "priority", message: "Priority is required." });
+  if (priority === '') {
+    errors.push({ field: 'priority', message: 'Priority is required.' });
   }
-  if (!/^[a-zA-Z ]+$/.test(assignedTo) || assignedTo === "") {
+  if (!/^[a-zA-Z ]+$/.test(assignedTo) || assignedTo === '') {
     errors.push({
-      field: "assignedTo",
-      message: "Please enter a valid name in the Assigned To field.",
+      field: 'assignedTo',
+      message: 'Please enter a valid name in the Assigned To field.',
     });
   }
 
   // Display error messages on the form
   errors.forEach((error) => {
     const inputField = document.getElementById(error.field);
-    const errorElement = document.createElement("span");
-    errorElement.className = "error-message";
+    const errorElement = document.createElement('span');
+    errorElement.className = 'error-message';
     errorElement.textContent = error.message;
     inputField.parentNode.insertBefore(errorElement, inputField.nextSibling);
   });
@@ -80,8 +80,8 @@ function validateForm() {
 }
 
 // Add event listener for form submission
-document.addEventListener("DOMContentLoaded", () => {
-  $("#taskForm").addEventListener("submit", submitForm);
+document.addEventListener('DOMContentLoaded', () => {
+  $('#taskForm').addEventListener('submit', submitForm);
   fillForm();
 });
 
@@ -93,14 +93,21 @@ function fillForm() {
   if (!taskId) {
     return;
   }
-  // Populate form fields with task data
-  $('#taskName').value = queryParams.get('taskName') || '';
-  $('#taskDesc').value = queryParams.get('taskDesc') || '';
-  $('#assignedTo').value = queryParams.get('assignedTo') || '';
-  $('#deadline').value = queryParams.get('deadline') || '';
-  const priority = queryParams.get('priority') || '';
-  // Check the radio button corresponding to the priority
-  document.getElementById(priority).checked = true;
+
+  TaskManager.findTaskById(taskId)
+    .then((task) => {
+      if (task) {
+        $('#taskName').value = task.taskName;
+        $('#taskDesc').value = task.taskDesc;
+        $('#assignedTo').value = task.assignedTo;
+        $('#deadline').value = task.deadline;
+        const priority = task.priority;
+        document.getElementById(priority).checked = true;
+      } else {
+        console.error(`Task with ID ${taskId} not found.`);
+      }
+    })
+    .catch((error) => console.error(error));
 }
 
 function submitForm(e) {
@@ -119,24 +126,24 @@ function submitForm(e) {
     taskDesc: $('#taskDesc').value.trim(),
     assignedTo: $('#assignedTo').value.trim(),
     deadline: $('#deadline').value,
-    priority: document.querySelector('input[name="priority"]:checked').id
+    priority: document.querySelector('input[name="priority"]:checked').id,
   };
 
   const onSuccess = (res) => {
-    $("#taskForm").reset();
+    $('#taskForm').reset();
     // Display success message
-    const operation = taskId ? "updated" : "added";
-    displaySuccessMessage("Task " + operation + " successfully");
+    const operation = taskId ? 'updated' : 'added';
+    displaySuccessMessage('Task ' + operation + ' successfully');
 
     // Redirect to getAll.html after a short delay
     setTimeout(() => {
-      window.location.href = "getAll.html";
+      window.location.href = 'getAll.html';
     }, 1000);
-  }
+  };
 
   const onFailed = (res) => {
     displayErrorMessage(res.error);
-  }
+  };
 
   if (taskId) {
     // If taskId exists, update existing task
@@ -147,5 +154,3 @@ function submitForm(e) {
     TaskManager.addTask(task, onSuccess, onFailed);
   }
 }
-
-

@@ -1,97 +1,85 @@
 class TaskManager {
-	constructor() {}
-
-	static getNextTaskId() {
-		const nextId = parseInt(localStorage.getItem('nextId')) || 1
-		localStorage.setItem('nextId', nextId + 1)
-		return nextId
-	}
-
 	static async addTask(newTask, onSuccess, onFailed) {
-		fetch('/api/task/', {
-			method: 'POST',
-			headers: {
-				'Content-Type': 'application/json',
-			},
-			body: JSON.stringify(newTask),
+	  fetch('/api/task/', {
+		method: 'POST',
+		headers: {
+		  'Content-Type': 'application/json',
+		},
+		body: JSON.stringify(newTask),
+	  })
+		.then((response) => response.json())
+		.then((json) => {
+		  if (json.status == 'ok') {
+			onSuccess?.(json);
+		  } else {
+			onFailed?.(json);
+		  }
 		})
-			.then((response) => response.json())
-			.then((json) => {
-				if (json.status == 'ok') {
-					onSuccess?.(json)
-				} else {
-					onFailed?.(json)
-				}
-			})
-			.catch((e) => console.log(e))
+		.catch((e) => console.log(e));
 	}
-
-	// Store the tasks array back in local storage
-	static saveTasks(tasks) {
-		return localStorage.setItem('tasks', JSON.stringify(tasks))
-	}
-
+  
 	static getTasks() {
-		return fetch('/api/task')
-			.then((res) => res.text())
-			.then(
-				(html) =>
-					(document.getElementById('tasks-container').innerHTML =
-						html)
-			)
+	  return fetch('/api/task')
+		.then((res) => res.json())
+		.then((json) => json.data);
 	}
-
+  
 	static searchTasks(keyword) {
-		const tasks = this.getTasks()
+	  return this.getTasks().then((tasks) => {
 		if (keyword == '') {
-			return tasks
+		  return tasks;
 		}
-		keyword = keyword.toLowerCase()
+		keyword = keyword.toLowerCase();
 		return tasks.filter((task) => {
-			return (
-				task.taskName.toLowerCase().includes(keyword) ||
-				task.taskDesc.toLowerCase().includes(keyword) ||
-				task.assignedTo.toLowerCase().includes(keyword)
-			)
+		  return (
+			task.taskName.toLowerCase().includes(keyword) ||
+			task.taskDesc.toLowerCase().includes(keyword) ||
+			task.assignedTo.toLowerCase().includes(keyword)
+		  );
+		});
+	  });
+	}
+  
+	static async updateTask(updatedTask, onSuccess, onFailed) {
+	  fetch(`/api/task/${updatedTask.taskId}`, {
+		method: 'PUT',
+		headers: {
+		  'Content-Type': 'application/json',
+		},
+		body: JSON.stringify(updatedTask),
+	  })
+		.then((response) => response.json())
+		.then((json) => {
+		  if (json.status == 'ok') {
+			onSuccess?.(json);
+		  } else {
+			onFailed?.(json);
+		  }
 		})
+		.catch((e) => console.log(e));
 	}
-
-	// Update the task in the tasks array
-	static updateTask(updatedTask) {
-		const tasks = this.getTasks()
-		const index = this.findIndexById(updatedTask.taskId)
-		if (index !== -1) {
-			tasks[index] = updatedTask
-			this.saveTasks(tasks)
-		}
-	}
-
+  
 	static async deleteTask(taskId) {
-		return fetch(`/api/task/${taskId}`, {
-		  method: 'DELETE',
+	  return fetch(`/api/task/${taskId}`, {
+		method: 'DELETE',
+	  })
+		.then((response) => response.json())
+		.then((json) => {
+		  if (json.status === 'ok') {
+			console.log(`Task : ${taskId} deleted from the list.`);
+			this.getTasks();
+		  } else {
+			console.error(`Error while deleting task ${taskId}: ${json.error}`);
+		  }
 		})
-		  .then((response) => response.json())
-		  .then((json) => {
-			if (json.status === 'ok') {
-			  console.log(`Task : ${taskId} deleted frm the lis.`);
-			  this.getTasks();
-			} else {
-			  console.error(`Error while deleing task ${taskId}: ${json.error}`);
-			}
-		  })
-		  .catch((error) => {
-			console.error('Error in deleting task:', error);
-		  });
-	  }
-
+		.catch((error) => {
+		  console.error('Error in deleting task:', error);
+		});
+	}
+  
 	static findTaskById(taskId) {
-		return this.getTasks().find((task) => task.taskId == taskId)
+	  return this.getTasks().then((tasks) => tasks.find((task) => task.taskId == taskId));
 	}
-
-	// Find the index of the task with the matching taskId
-	static findIndexById(taskId) {
-		return this.getTasks().findIndex((task) => task.taskId === taskId)
-	}
-}
-
-const $ = (selector) => document.querySelector(selector)
+  }
+  
+  const $ = (selector) => document.querySelector(selector);
